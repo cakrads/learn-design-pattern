@@ -1,4 +1,7 @@
-// Not Use SRP
+/**
+ * Not Use SRP
+ * 
+ */
 export class Auth {
   email: string;
   password: string;
