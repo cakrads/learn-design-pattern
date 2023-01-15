@@ -43,5 +43,56 @@ console.log(count3); // 15
 console.log(count4); // 5
 
 
+/**
+ * Another Example
+ */
 
-export { calculate, add, min };
+// in utils root folder
+const utils = {
+  calculateSubtotal: (order: any): number => order,
+  calculateTax: (subtotal: any): number => subtotal,
+  calculateShipping: (order: any): number => order,
+};
+// in helper root folder
+const helper = {
+  sendInvoiceEmail: (order: any, totalCost: number) => ({ order, totalCost })
+};
+// example this in file repository.ts
+const repository = {
+  saveToDatabase: (order: any, totalCost: number) => ({ order, totalCost }),
+};
+
+// example in services/actions/hooks file
+// Non SRP
+async function handleSubmitOrder_NonSRP(order: any) {
+  const subtotal = utils.calculateSubtotal(order);
+  const tax = utils.calculateTax(subtotal);
+  const shipping = utils.calculateShipping(order);
+  const totalCost = subtotal + tax + shipping;
+  await repository.saveToDatabase(order, totalCost);
+  helper.sendInvoiceEmail(order, totalCost);
+}
+
+// SRP
+async function handleSubmitOrder_SRP(order: any) {
+  const totalCost = calculateTotalCost(order);
+  await saveOrder(order, totalCost);
+  sendInvoice(order, totalCost);
+}
+
+function calculateTotalCost(order: any) {
+  const subtotal = utils.calculateSubtotal(order);
+  const tax = utils.calculateTax(subtotal);
+  const shipping = utils.calculateShipping(order);
+  return subtotal + tax + shipping;
+}
+
+async function saveOrder(order: any, totalCost: number) {
+  return await repository.saveToDatabase(order, totalCost);
+}
+
+function sendInvoice(order: any, totalCost: any) {
+  helper.sendInvoiceEmail(order, totalCost);
+}
+
+export { calculate, add, min, handleSubmitOrder_NonSRP, handleSubmitOrder_SRP };

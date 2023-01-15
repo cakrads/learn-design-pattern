@@ -7,7 +7,7 @@ type TData = {
   address: string;
 };
 
-function DataTable() {
+function UserTable() {
   const [data, setData] = useState<TData[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<Error | null>(null);
@@ -75,4 +75,4 @@ function DataTable() {
   );
 }
 
-export default DataTable;
+export default UserTable;
