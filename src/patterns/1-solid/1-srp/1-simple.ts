@@ -4,6 +4,9 @@
  * imagine, if we want to add another Arithmetic Operations,
  * we should add another if so on
  * ex: if (type === "multiply") return a * b;
+ * note: this function violate principle SRP and OCP
+ * SRP cause many responsibility
+ * OCP cause if we want to add new responsible, we should modify the function
  */
 function calculate(a: number, b: number, type: string) {
   if (type === "add")
